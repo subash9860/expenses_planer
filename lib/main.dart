@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import './widgets/new_transctions.dart';
 import './models/transctions.dart';
 import './widgets/transctions_list.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
         accentColor: Colors.amber,
+        fontFamily: 'Quicksand'
       ),
     );
   }
