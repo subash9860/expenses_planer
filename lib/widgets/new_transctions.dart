@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class NewTransctions extends StatefulWidget {
   // const NewsTransctions({ Key? key }) : super(key: key);
@@ -11,17 +12,37 @@ class NewTransctions extends StatefulWidget {
 }
 
 class _NewTransctionsState extends State<NewTransctions> {
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
+  final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
+  DateTime? _selectedDate;
 
-  submit() {
-    final titleSubmit = titleController.text;
-    final amountSubmit = double.parse(amountController.text);
-    if (titleSubmit.isEmpty || amountSubmit <= 0) {
+  _submit() {
+    if (_amountController.text.isEmpty) {
       return;
     }
-    widget.addtranscations(titleSubmit, amountSubmit);
+    final titleSubmit = _titleController.text;
+    final amountSubmit = double.parse(_amountController.text);
+    if (titleSubmit.isEmpty || amountSubmit <= 0 || _selectedDate == null) {
+      return;
+    }
+    widget.addtranscations(titleSubmit, amountSubmit,_selectedDate,);
     Navigator.of(context).pop();
+  }
+
+  void _presentDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        _selectedDate = pickedDate;
+      });
+    });
   }
 
   @override
@@ -34,27 +55,37 @@ class _NewTransctionsState extends State<NewTransctions> {
           TextField(
             decoration: InputDecoration(labelText: 'Title'),
             // onChanged: (value) => titlechange = value,
-            controller: titleController,
-            onSubmitted: (_) => submit(),
+            controller: _titleController,
+            onSubmitted: (_) => _submit(),
           ),
           TextField(
             decoration: InputDecoration(labelText: 'Amount'),
             // onChanged: (value) => amountChnage = value,
-            controller: amountController,
+            controller: _amountController,
             keyboardType: TextInputType.number,
-            onSubmitted: (_) => submit(),
+            onSubmitted: (_) => _submit(),
+          ),
+          Container(
+            height: 70,
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    (_selectedDate == null)
+                        ? "No date chosen"
+                        : "Chosen Date: ${DateFormat.yMd().format(_selectedDate!)}",
+                  ),
+                ),
+                SizedBox(width: 20),
+                TextButton(
+                    onPressed: _presentDatePicker, child: Text("Select Date"))
+              ],
+            ),
           ),
           ElevatedButton(
             child: Text('Add Transctions'),
-            onPressed: submit,
+            onPressed: _submit,
           )
-          // () {
-          //   addtranscations(
-          //       titleController.text, double.parse(amountController.text));
-          // print('$titlechange , $amountChnage');
-          // print(titleController.text);
-          // print(amountController.text);
-          // },
         ],
       ),
     );

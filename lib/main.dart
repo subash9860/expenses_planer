@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import './widgets/new_transctions.dart';
 import './models/transctions.dart';
 import './widgets/transctions_list.dart';
+import './widgets/chart.dart';
 
 main() => runApp(MyApp());
 
@@ -12,14 +13,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomePage(),
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
-        fontFamily: 'Quicksand'
-      ),
-    );
+        home: HomePage(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+              headline6: TextStyle(
+                  fontFamily: 'Opensans',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                    fontFamily: 'Opensans',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          ),
+        ));
   }
 }
 
@@ -30,17 +42,26 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transction> _usertransctions = [
-    Transction('a1', 'Shoes', 150.9, DateTime.now()),
-    Transction('a2', 'Books', 100.0, DateTime.now()),
-    Transction('a3', 'Pen', 25.00, DateTime.now()),
+    // Transction('a1', 'Shoes', 150.9, DateTime.now()),
+    // Transction('a2', 'Books', 100.0, DateTime.now()),
+    // Transction('a3', 'Pen', 25.00, DateTime.now()),
   ];
 
-  void _addNewTransctions(String txTitle, double txAmount) {
+  List<Transction> get _recentTranstions {
+    return _usertransctions
+        .where((element) => element.date.isAfter(DateTime.now().subtract(
+              Duration(days: 7),
+            )))
+        .toList();
+  }
+
+  void _addNewTransctions(
+      String txTitle, double txAmount, DateTime chosendate) {
     final newTx = Transction(
       DateTime.now().toString(),
       txTitle,
       txAmount,
-      DateTime.now(),
+      chosendate,
     );
 
     setState(() {
@@ -57,6 +78,12 @@ class _HomePageState extends State<HomePage> {
               behavior: HitTestBehavior.opaque,
               child: NewTransctions(_addNewTransctions));
         });
+  }
+
+  void _deleteTransctions( String _id) {
+    setState(() {
+      _usertransctions.removeWhere((element) => element.id == _id);
+    });
   }
 
   @override
@@ -77,14 +104,15 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Container(
-                  padding: EdgeInsets.all(10),
-                  child: Card(
-                    elevation: 5,
-                    child: Text('CHART!'),
-                    color: Colors.blue,
-                  )),
-              TransctionList(_usertransctions),
+              Chart(_recentTranstions),
+              // Container(
+              //     padding: EdgeInsets.all(10),
+              //     child: Card(
+              //       elevation: 5,
+              //       child: Text('CHART!'),
+              //       color: Colors.blue,
+              //     )),
+              TransctionList(_usertransctions,_deleteTransctions),
               FloatingActionButton(
                 onPressed: () => _startAddNewTransction(context),
                 child: Icon(Icons.add),
