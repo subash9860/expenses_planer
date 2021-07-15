@@ -37,7 +37,7 @@ class Chart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(groupedTransactionValues);
+    // print(groupedTransactionValues);
     return Card(
       // color: Theme.of(context).accentColor,
       elevation: 5,

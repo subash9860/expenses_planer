@@ -1,16 +1,15 @@
 # expenses_planer
 
-A new Flutter project.
+Expenses Planer Mobile Appliction 
 
-## Getting Started
+![UI](./readmeAssets/UI.png)
 
-This project is a starting point for a Flutter application.
+## About
+This is flutter app. 
+chart shows percentage of amount spend in that day by total amount spend in a week.
 
-A few resources to get you started if this is your first Flutter project:
+Transtions can be added in different date and deleted also.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Thank you for visiting 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Thank you for visiting.

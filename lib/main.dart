@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/new_transctions.dart';
 import './models/transctions.dart';
 import './widgets/transctions_list.dart';
 import './widgets/chart.dart';
 
-main() => runApp(MyApp());
+main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -80,7 +89,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  void _deleteTransctions( String _id) {
+  void _deleteTransctions(String _id) {
     setState(() {
       _usertransctions.removeWhere((element) => element.id == _id);
     });
@@ -88,37 +97,38 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final appBar = AppBar(
+      backgroundColor: Theme.of(context).primaryColor,
+      title: Text('Expenses Planer'),
+      actions: [
+        IconButton(
+            onPressed: () => _startAddNewTransction(context),
+            icon: Icon(Icons.add))
+      ],
+    );
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Expenses Planer'),
-        actions: [
-          IconButton(
+      appBar: appBar,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(_recentTranstions)),
+            Container(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.61,
+                child: TransctionList(_usertransctions, _deleteTransctions)),
+            FloatingActionButton(
               onPressed: () => _startAddNewTransction(context),
-              icon: Icon(Icons.add))
-        ],
-      ),
-      body: Container(
-        height: 1000,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Chart(_recentTranstions),
-              // Container(
-              //     padding: EdgeInsets.all(10),
-              //     child: Card(
-              //       elevation: 5,
-              //       child: Text('CHART!'),
-              //       color: Colors.blue,
-              //     )),
-              TransctionList(_usertransctions,_deleteTransctions),
-              FloatingActionButton(
-                onPressed: () => _startAddNewTransction(context),
-                child: Icon(Icons.add),
-              )
-            ],
-          ),
+              child: Icon(Icons.add),
+            )
+          ],
         ),
       ),
     );
