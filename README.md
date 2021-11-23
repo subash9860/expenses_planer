@@ -1,15 +1,12 @@
-# expenses_planer
+# Expanses Tracker (notes all your daily spending in this app)
 
-Expenses Planer Mobile Appliction 
-
-![UI](./readmeAssets/UI.png)
-
-## About
-This is flutter app. 
-chart shows percentage of amount spend in that day by total amount spend in a week.
-
+Expenses Tracker is the flutter mobile app where user can add their spanding of a week.
+Chart shows percentage of amount spend in that day by total amount spend in a week.
 Transtions can be added in different date and deleted also.
 
-## Thank you for visiting 
+## [View in Web](https://subash9860.github.io/expenses_app/)
 
-Thank you for visiting.
+### Snapshot
+<img height="480px" src="readmeAssets/UI.png">
+
+## Thank you for visiting 
