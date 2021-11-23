@@ -4,7 +4,7 @@ Expenses Tracker is the flutter mobile app where user can add their spanding of 
 Chart shows percentage of amount spend in that day by total amount spend in a week.
 Transtions can be added in different date and deleted also.
 
-## [View in Web](https://subash9860.github.io/expenses_app/)
+## [View in Web](https://subash9860.github.io/expenses_planer/#/)
 
 ### Snapshot
 <img height="480px" src="readmeAssets/UI.png">
